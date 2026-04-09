@@ -14,10 +14,12 @@ import { motion } from "framer-motion";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
+
 export default function Home() {
   return (
     <section>
-     
+      
+
       <Hero/>
       <LogoMarquee/>
       <Infocom/>
