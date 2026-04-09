@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BarChart3, User, Calendar, Activity, LogOut, 
-  Flame, Target, TrendingUp, Play, Award, Plus, Menu, X
+  Flame, Target, TrendingUp, Plus, Menu, X
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -153,7 +153,6 @@ export default function ColorfulNovaDashboard() {
           {stats.map((stat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
               <Card className="bg-white/[0.03] backdrop-blur-md border-white/5 rounded-[2rem] hover:bg-white/[0.06] transition-all overflow-hidden relative group">
-                {/* Dynamic Border Color */}
                 <div className={`absolute top-0 left-0 w-1 h-full transition-opacity opacity-0 group-hover:opacity-100 ${
                   stat.color === 'violet' ? 'bg-violet-500' : stat.color === 'orange' ? 'bg-orange-500' : 'bg-emerald-500'
                 }`} />
@@ -225,10 +224,36 @@ export default function ColorfulNovaDashboard() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                    <XAxis dataKey="day" stroke="#ffffff20" fontSize={12} tick={{ fontWeight: 'bold' }} />
+                    
+                    {/* Fixed XAxis - This was causing the TypeScript error */}
+                    <XAxis 
+                      dataKey="day" 
+                      stroke="#ffffff20"
+                      tickLine={false}
+                      axisLine={false}
+                      tick={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        fill: "#e5e7eb",
+                      }}
+                    />
+                    
                     <YAxis hide />
-                    <Tooltip contentStyle={{ backgroundColor: '#000', borderRadius: '16px', border: '1px solid #ffffff10' }} />
-                    <Area type="monotone" dataKey="strength" stroke="#a855f7" strokeWidth={4} fillOpacity={1} fill="url(#colorStrength)" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#000', 
+                        borderRadius: '16px', 
+                        border: '1px solid #ffffff10' 
+                      }} 
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="strength" 
+                      stroke="#a855f7" 
+                      strokeWidth={4} 
+                      fillOpacity={1} 
+                      fill="url(#colorStrength)" 
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -278,7 +303,10 @@ export default function ColorfulNovaDashboard() {
                 <Input type="number" defaultValue={520} className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold text-white" />
               </div>
             </div>
-            <Button onClick={handleLogWorkout} className="w-full h-16 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-xl font-black uppercase tracking-tighter shadow-xl shadow-violet-500/20 border-none text-white">
+            <Button 
+              onClick={handleLogWorkout} 
+              className="w-full h-16 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-xl font-black uppercase tracking-tighter shadow-xl shadow-violet-500/20 border-none text-white"
+            >
               SAVE WORKOUT
             </Button>
           </div>
@@ -301,7 +329,13 @@ export default function ColorfulNovaDashboard() {
             </div>
             <nav className="flex-1 flex flex-col gap-8">
               {["Dashboard", "Profile", "Schedule", "Progress"].map(item => (
-                <a key={item} href="#" className="text-5xl font-black tracking-tighter hover:text-violet-500 transition-colors uppercase italic text-white">{item}</a>
+                <a 
+                  key={item} 
+                  href="#" 
+                  className="text-5xl font-black tracking-tighter hover:text-violet-500 transition-colors uppercase italic text-white"
+                >
+                  {item}
+                </a>
               ))}
             </nav>
           </motion.div>
