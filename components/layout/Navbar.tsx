@@ -115,12 +115,10 @@ export default function Navbar() {
 
         {/* Right Side - Theme Toggler + Mobile Menu */}
         <div className="flex items-center gap-3">
-        
-
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
+              <SheetTrigger >
                 <Button
                   variant="ghost"
                   size="icon"
@@ -129,6 +127,7 @@ export default function Navbar() {
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
+
               <SheetContent
                 side="right"
                 className="w-full sm:w-96 border-none bg-white dark:bg-zinc-950 p-0"
@@ -139,7 +138,9 @@ export default function Navbar() {
                       <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2 rounded-2xl">
                         <Zap className="w-5 h-5 text-white" fill="currentColor" />
                       </div>
-                      <span className="font-black text-3xl tracking-tighter">nova<span className="text-indigo-600">.</span></span>
+                      <span className="font-black text-3xl tracking-tighter">
+                        nova<span className="text-indigo-600">.</span>
+                      </span>
                     </div>
                     <SheetClose className="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800">
                       <X className="w-6 h-6" />
@@ -148,10 +149,11 @@ export default function Navbar() {
 
                   <nav className="flex-1 p-8 space-y-8">
                     {navItems.map((item) => (
-                      <SheetClose key={item.name} asChild>
+                      <SheetClose key={item.name} >
                         <Link
                           href={item.href}
                           className="group flex items-center justify-between text-3xl font-bold tracking-tight text-slate-900 dark:text-white hover:text-indigo-600 transition-colors"
+                          onClick={() => setOpen(false)}
                         >
                           {item.name}
                           <ArrowRight className="w-7 h-7 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -201,7 +203,8 @@ export default function Navbar() {
               </Button>
             </Link>
           </div>
-            {/* Theme Toggler - Now visible on all screens */}
+
+          {/* Theme Toggler - Now visible on all screens */}
           <AnimatedThemeToggler />
         </div>
       </nav>
