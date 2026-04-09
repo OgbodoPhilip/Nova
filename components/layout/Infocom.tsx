@@ -128,7 +128,7 @@ const TypographyShowcase = () => {
           gsap.fromTo(char, { opacity: 0 }, {
             duration: 0.03, innerHTML: () => symbols[Math.floor(Math.random() * symbols.length)],
             repeat: 1, repeatRefresh: true, opacity: 1, repeatDelay: 0.03,
-            onComplete: () => gsap.set(char, { innerHTML: initialHTML }),
+            onComplete: () => { gsap.set(char, { innerHTML: initialHTML }); },
             scrollTrigger: { trigger: title, start: 'top bottom', toggleActions: "play resume resume reset" }
           });
         });
