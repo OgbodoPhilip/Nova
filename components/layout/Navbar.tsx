@@ -16,6 +16,7 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
+  { name: "Home", href: "/" },
   { name: "Features", href: "/feature" },
   { name: "Dashboard", href: "/dashboard" },
   { name: "Workouts", href: "/workouts" },
@@ -118,7 +119,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger >
+              <SheetTrigger>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -130,29 +131,34 @@ export default function Navbar() {
 
               <SheetContent
                 side="right"
-                className="w-full sm:w-96 border-none bg-white dark:bg-zinc-950 p-0"
+                className="w-full sm:w-96 border-none bg-white dark:bg-zinc-950 p-0 [&>button:first-of-type]:hidden"
               >
                 <div className="h-full flex flex-col">
-                  <div className="p-8 flex items-center justify-between border-b border-slate-100 dark:border-zinc-800">
+                  {/* Mobile Header - Logo + Close Button */}
+                  <div className="p-6 flex items-center justify-between border-b border-slate-100 dark:border-zinc-800">
+                    {/* Logo */}
                     <div className="flex items-center gap-3">
-                      <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2 rounded-2xl">
+                      <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2.5 rounded-2xl">
                         <Zap className="w-5 h-5 text-white" fill="currentColor" />
                       </div>
                       <span className="font-black text-3xl tracking-tighter">
                         nova<span className="text-indigo-600">.</span>
                       </span>
                     </div>
-                    <SheetClose className="p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-800">
-                      <X className="w-6 h-6" />
+
+                    {/* Custom Close Button - without asChild */}
+                    <SheetClose className="p-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
+                      <X className="w-8 h-8 text-slate-900 dark:text-white" />
                     </SheetClose>
                   </div>
 
+                  {/* Navigation Links */}
                   <nav className="flex-1 p-8 space-y-8">
                     {navItems.map((item) => (
-                      <SheetClose key={item.name} >
+                      <SheetClose key={item.name}>
                         <Link
                           href={item.href}
-                          className="group flex items-center justify-between text-3xl font-bold tracking-tight text-slate-900 dark:text-white hover:text-indigo-600 transition-colors"
+                          className="group flex items-center justify-between text-3xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors"
                           onClick={() => setOpen(false)}
                         >
                           {item.name}
@@ -162,6 +168,7 @@ export default function Navbar() {
                     ))}
                   </nav>
 
+                  {/* Bottom Actions */}
                   <div className="p-8 border-t border-slate-100 dark:border-zinc-800 space-y-4">
                     <Link href="/signup" onClick={() => setOpen(false)}>
                       <Button className="w-full h-16 rounded-3xl bg-gradient-to-r from-indigo-600 to-violet-600 text-lg font-semibold">
@@ -182,7 +189,7 @@ export default function Navbar() {
             </Sheet>
           </div>
 
-          {/* Desktop Right Side (Login + Get Started) */}
+          {/* Desktop Right Side */}
           <div className="hidden md:flex items-center gap-6">
             <Link
               href="/login"
@@ -204,7 +211,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Theme Toggler - Now visible on all screens */}
+          {/* Theme Toggler */}
           <AnimatedThemeToggler />
         </div>
       </nav>
