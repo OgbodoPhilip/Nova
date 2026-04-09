@@ -13,17 +13,43 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { 
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, 
+  XAxis, YAxis, CartesianGrid, Tooltip, 
   ResponsiveContainer, AreaChart, Area 
 } from 'recharts';
 
-export default function ColorfulNovaDashboard() {
-  const [isLogModalOpen, setIsLogModalOpen] = useState(false);
-  const [selectedWorkout, setSelectedWorkout] = useState<number | null>(1);
-  const [loggedWorkouts, setLoggedWorkouts] = useState(47);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// --- Types ---
 
-  const progressData = [
+interface ProgressData {
+  day: string;
+  strength: number;
+  cardio: number;
+}
+
+interface Workout {
+  id: number;
+  name: string;
+  time: string;
+  type: string;
+  duration: string;
+  intensity: string;
+  emoji: string;
+}
+
+interface StatCardProps {
+  title: string;
+  value: string | number;
+  change: string;
+  icon: React.ReactNode;
+  color: 'violet' | 'orange' | 'emerald';
+}
+
+export default function ColorfulNovaDashboard() {
+  const [isLogModalOpen, setIsLogModalOpen] = useState<boolean>(false);
+  const [selectedWorkout, setSelectedWorkout] = useState<number | null>(1);
+  const [loggedWorkouts, setLoggedWorkouts] = useState<number>(47);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const progressData: ProgressData[] = [
     { day: 'Mon', strength: 82, cardio: 65 },
     { day: 'Tue', strength: 85, cardio: 78 },
     { day: 'Wed', strength: 88, cardio: 72 },
@@ -33,10 +59,16 @@ export default function ColorfulNovaDashboard() {
     { day: 'Sun', strength: 92, cardio: 82 },
   ];
 
-  const upcomingWorkouts = [
+  const upcomingWorkouts: Workout[] = [
     { id: 1, name: "Upper Body Strength", time: "Tomorrow • 07:00 AM", type: "Strength", duration: "60 min", intensity: "High", emoji: "💪" },
     { id: 2, name: "HIIT Cardio Blast", time: "Friday • 06:30 PM", type: "Cardio", duration: "45 min", intensity: "Very High", emoji: "⚡" },
     { id: 3, name: "Mobility & Recovery", time: "Sunday • 09:00 AM", type: "Recovery", duration: "40 min", intensity: "Low", emoji: "🧘" },
+  ];
+
+  const stats: StatCardProps[] = [
+    { title: "COMPLETED", value: loggedWorkouts, change: "+12 MONTHLY", icon: <Target className="text-violet-400" />, color: "violet" },
+    { title: "BURNED", value: "18.4K", change: "8% INCREASE", icon: <Flame className="text-orange-400" />, color: "orange" },
+    { title: "STREAK", value: "26", change: "RECORD BREAKING 🔥", icon: <TrendingUp className="text-emerald-400" />, color: "emerald" },
   ];
 
   const handleLogWorkout = () => {
@@ -56,7 +88,7 @@ export default function ColorfulNovaDashboard() {
       <aside className="w-80 bg-black/40 backdrop-blur-xl border-r border-white/10 p-8 hidden lg:flex flex-col sticky top-0 h-screen">
         <div className="flex items-center gap-4 mb-16">
           <div className="w-12 h-12 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-orange-400 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-            <span className="font-black text-3xl tracking-tighter">N</span>
+            <span className="font-black text-3xl tracking-tighter text-white">N</span>
           </div>
           <h1 className="text-4xl font-black tracking-tighter italic">NOVA</h1>
         </div>
@@ -80,7 +112,7 @@ export default function ColorfulNovaDashboard() {
           ))}
         </nav>
 
-        <Button variant="ghost" className="mt-auto justify-start gap-3 text-zinc-500 hover:text-rose-400 font-bold">
+        <Button variant="ghost" className="mt-auto justify-start gap-3 text-zinc-500 hover:text-rose-400 font-bold hover:bg-transparent">
           <LogOut size={20} /> Sign Out
         </Button>
       </aside>
@@ -110,7 +142,7 @@ export default function ColorfulNovaDashboard() {
 
           <Button 
             onClick={() => setIsLogModalOpen(true)}
-            className="w-full lg:w-auto rounded-full h-16 px-10 bg-white text-black hover:bg-zinc-200 text-xl font-black shadow-[0_10px_30px_rgba(255,255,255,0.15)] flex items-center gap-3 group transition-all active:scale-95"
+            className="w-full lg:w-auto rounded-full h-16 px-10 bg-white text-black hover:bg-zinc-200 text-xl font-black shadow-[0_10px_30px_rgba(255,255,255,0.15)] flex items-center gap-3 group transition-all active:scale-95 border-none"
           >
             <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform" /> LOG WORKOUT
           </Button>
@@ -118,21 +150,20 @@ export default function ColorfulNovaDashboard() {
 
         {/* Dynamic Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {[
-            { title: "COMPLETED", value: loggedWorkouts, change: "+12 MONTHLY", icon: <Target className="text-violet-400" />, color: "violet" },
-            { title: "BURNED", value: "18.4K", change: "8% INCREASE", icon: <Flame className="text-orange-400" />, color: "orange" },
-            { title: "STREAK", value: "26", change: "RECORD BREAKING 🔥", icon: <TrendingUp className="text-emerald-400" />, color: "emerald" },
-          ].map((stat, i) => (
+          {stats.map((stat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
               <Card className="bg-white/[0.03] backdrop-blur-md border-white/5 rounded-[2rem] hover:bg-white/[0.06] transition-all overflow-hidden relative group">
-                <div className={`absolute top-0 left-0 w-1 h-full bg-${stat.color}-500 opacity-0 group-hover:opacity-100 transition-opacity`} />
+                {/* Dynamic Border Color */}
+                <div className={`absolute top-0 left-0 w-1 h-full transition-opacity opacity-0 group-hover:opacity-100 ${
+                  stat.color === 'violet' ? 'bg-violet-500' : stat.color === 'orange' ? 'bg-orange-500' : 'bg-emerald-500'
+                }`} />
                 <CardContent className="p-8">
                   <div className="flex justify-between items-start mb-6">
                     <div className="p-4 rounded-2xl bg-white/5">{stat.icon}</div>
                     <Badge className="bg-white/10 text-white border-none font-black text-[10px] tracking-widest">{stat.change}</Badge>
                   </div>
                   <h3 className="text-zinc-500 text-xs font-black tracking-[0.2em] uppercase mb-2">{stat.title}</h3>
-                  <p className="text-6xl font-black tracking-tighter">{stat.value}</p>
+                  <p className="text-6xl font-black tracking-tighter text-white">{stat.value}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -140,11 +171,11 @@ export default function ColorfulNovaDashboard() {
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8">
-          {/* Upcoming Workouts - Visual List */}
+          {/* Upcoming Workouts */}
           <div className="lg:col-span-7">
             <Card className="bg-white/[0.03] backdrop-blur-md border-white/5 rounded-[2.5rem]">
               <CardHeader className="p-8 pb-0">
-                <CardTitle className="text-3xl font-black tracking-tighter flex items-center gap-4">
+                <CardTitle className="text-3xl font-black tracking-tighter flex items-center gap-4 text-white">
                   UPCOMING SESSIONS
                 </CardTitle>
               </CardHeader>
@@ -162,7 +193,7 @@ export default function ColorfulNovaDashboard() {
                         {workout.emoji}
                       </div>
                       <div>
-                        <p className="font-black text-2xl tracking-tight">{workout.name}</p>
+                        <p className="font-black text-2xl tracking-tight text-white">{workout.name}</p>
                         <p className="text-zinc-500 font-bold uppercase text-xs tracking-widest mt-1">{workout.time}</p>
                       </div>
                     </div>
@@ -180,7 +211,7 @@ export default function ColorfulNovaDashboard() {
           <div className="lg:col-span-5 space-y-8">
             <Card className="bg-white/[0.03] backdrop-blur-md border-white/5 rounded-[2.5rem] overflow-hidden">
               <CardHeader className="p-8 pb-0">
-                <CardTitle className="text-xl font-black tracking-tighter flex items-center gap-3">
+                <CardTitle className="text-xl font-black tracking-tighter flex items-center gap-3 text-white">
                   STRENGTH VELOCITY
                 </CardTitle>
               </CardHeader>
@@ -194,7 +225,7 @@ export default function ColorfulNovaDashboard() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                    <XAxis dataKey="day" stroke="#ffffff20" fontSize={12} fontBold="bold" />
+                    <XAxis dataKey="day" stroke="#ffffff20" fontSize={12} tick={{ fontWeight: 'bold' }} />
                     <YAxis hide />
                     <Tooltip contentStyle={{ backgroundColor: '#000', borderRadius: '16px', border: '1px solid #ffffff10' }} />
                     <Area type="monotone" dataKey="strength" stroke="#a855f7" strokeWidth={4} fillOpacity={1} fill="url(#colorStrength)" />
@@ -213,7 +244,7 @@ export default function ColorfulNovaDashboard() {
                       <img src="https://i.pravatar.cc/100?u=coach" alt="Coach" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-black mb-2 tracking-tight">COACH INSIGHT</h3>
+                      <h3 className="text-xl font-black mb-2 tracking-tight text-white">COACH INSIGHT</h3>
                       <p className="text-zinc-300 leading-snug font-medium italic">
                         "Your deadlift PR is tracking 12% above projection. Let's spike the volume on Friday's accessory work."
                       </p>
@@ -228,26 +259,26 @@ export default function ColorfulNovaDashboard() {
 
       {/* Log Workout Modal */}
       <Dialog open={isLogModalOpen} onOpenChange={setIsLogModalOpen}>
-        <DialogContent className="sm:max-w-md bg-black border-white/10 rounded-[2.5rem] backdrop-blur-2xl">
+        <DialogContent className="sm:max-w-md bg-black border-white/10 rounded-[2.5rem] backdrop-blur-2xl text-white">
           <DialogHeader>
             <DialogTitle className="text-3xl font-black tracking-tighter">COMMIT DATA</DialogTitle>
           </DialogHeader>
           <div className="space-y-6 py-4">
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest text-zinc-500">Protocol Name</Label>
-              <Input placeholder="e.g. Upper Body" className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold" />
+              <Input placeholder="e.g. Upper Body" className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold text-white" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="font-black text-xs uppercase tracking-widest text-zinc-500">Minutes</Label>
-                <Input type="number" defaultValue={60} className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold" />
+                <Input type="number" defaultValue={60} className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold text-white" />
               </div>
               <div className="space-y-2">
                 <Label className="font-black text-xs uppercase tracking-widest text-zinc-500">Cals</Label>
-                <Input type="number" defaultValue={520} className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold" />
+                <Input type="number" defaultValue={520} className="h-14 bg-white/5 border-white/10 rounded-2xl font-bold text-white" />
               </div>
             </div>
-            <Button onClick={handleLogWorkout} className="w-full h-16 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-xl font-black uppercase tracking-tighter shadow-xl shadow-violet-500/20">
+            <Button onClick={handleLogWorkout} className="w-full h-16 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-xl font-black uppercase tracking-tighter shadow-xl shadow-violet-500/20 border-none text-white">
               SAVE WORKOUT
             </Button>
           </div>
@@ -265,12 +296,12 @@ export default function ColorfulNovaDashboard() {
           >
             <div className="flex justify-end mb-12">
               <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                <X />
+                <X className="text-white" />
               </Button>
             </div>
             <nav className="flex-1 flex flex-col gap-8">
               {["Dashboard", "Profile", "Schedule", "Progress"].map(item => (
-                <a key={item} href="#" className="text-5xl font-black tracking-tighter hover:text-violet-500 transition-colors uppercase italic">{item}</a>
+                <a key={item} href="#" className="text-5xl font-black tracking-tighter hover:text-violet-500 transition-colors uppercase italic text-white">{item}</a>
               ))}
             </nav>
           </motion.div>
