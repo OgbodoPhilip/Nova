@@ -3,11 +3,11 @@
 
 import GSAP from "gsap";
 import { useGSAP } from "@gsap/react";
-import img01 from "../../public/one.jpg";
-import img02 from "../../public/two.jpg";
-import img03 from "../../public/three.jpg";
-import img04 from "../../public/four.jpg";
-import img05 from "../../public/five.jpg";
+import img01 from "../../public/img01.png";
+import img02 from "../../public/img02.png";
+import img03 from "../../public/img03.png";
+import img04 from "../../public/img04.png";
+import img05 from "../../public/img05.png";
 
 const IMAGES = [img01, img02, img03, img04, img05];
 
