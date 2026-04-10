@@ -5,13 +5,14 @@ import GSAP from "gsap";
 import { useGSAP } from "@gsap/react";
 import img01 from "../../public/img01.png";
 import img02 from "../../public/img02.png";
-import img03 from "../../public/xy.png";
+import img03 from "../../public/xxyy.png";
 import img04 from "../../public/img04.png";
 import img05 from "../../public/img05.png";
 
 const IMAGES = [img01, img02, img03, img04, img05];
 
 const IMG_CLASS = "img w-[14vw] max-w-[140px] aspect-3/4 object-cover will-change-transform object-top";
+//const IMG_CLASS = "img w-[14vw] max-w-[140px] aspect-3/4 object-cover will-change-transform object-top";
 
 let hasPlayedThisSession = false;
 
