@@ -5,7 +5,7 @@ import GSAP from "gsap";
 import { useGSAP } from "@gsap/react";
 import img01 from "../../public/img01.png";
 import img02 from "../../public/img02.png";
-import img03 from "../../public/img03.png";
+import img03 from "../../public/xy.png";
 import img04 from "../../public/img04.png";
 import img05 from "../../public/img05.png";
 

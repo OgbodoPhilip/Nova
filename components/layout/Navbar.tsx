@@ -46,7 +46,7 @@ export default function Navbar() {
     pathname === href || pathname?.startsWith(`${href}/`);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-6 transition-all duration-500">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-6 md:px-2 md:py-2 transition-all duration-500">
       <nav
         className={cn(
           "mx-auto max-w-7xl transition-all duration-500",
