@@ -13,7 +13,7 @@ interface NavLink {
 
 const TitanHero = () => {
   return (
-    <div className="min-h-screen bg-black p-4 md:p-6 font-sans antialiased selection:bg-[#CCFF00] selection:text-black">
+    <div className="min-h-screen bg-red p-4 md:p-6 font-sans antialiased selection:bg-[#CCFF00] selection:text-black">
       {/* Main Container with the "Device" border look */}
       <div className="relative min-h-[calc(100vh-3rem)] w-full overflow-hidden rounded-[3rem] border-[12px] border-[#1A1A1A] bg-[#0A0A0A]">
 
