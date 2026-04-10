@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -10,19 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-
-// --- React Icons Imports ---
-import { FiZap, FiEye, FiEyeOff, FiLoader, FiLock } from "react-icons/fi";
+import { FiZap, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
   password: z.string().min(1, "Password is required."),
-  rememberMe: z.boolean().optional(),
 });
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -36,165 +34,137 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
-    // Simulate Production Auth Latency
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     console.log("Login Attempt:", data);
-    toast.success("Welcome back, Athlete! ⚡");
+    toast.success("Welcome back! ⚡");
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* RIGHT SIDE: The Form */}
-      <div className="flex flex-col w-full lg:w-1/2 justify-center items-center p-8 lg:p-24">
-        <div className="w-full max-w-sm space-y-8">
-          <div className="space-y-2 text-center lg:text-left">
-            <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
-            <p className="text-muted-foreground text-sm">
-              Enter your credentials to access your nova.
-            </p>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-6 transition-colors">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md"
+      >
+        {/* Logo & Header */}
+        <div className="flex flex-col items-center text-center mb-10">
+          <div className="w-14 h-14 rounded-3xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg">
+            <FiZap className="w-8 h-8 text-white" />
           </div>
-
-          {/* Social Logins */}
-          <div className="grid grid-cols-2 gap-3">
-            <Button
-              variant="outline"
-              className="rounded-xl border-2 hover:bg-muted transition-all"
-            >
-              <FaGoogle className="mr-2 h-4 w-4" /> Google
-            </Button>
-            <Button
-              variant="outline"
-              className="rounded-xl border-2 hover:bg-muted transition-all"
-            >
-              <FaGithub className="mr-2 h-4 w-4" /> GitHub
-            </Button>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or email
-              </span>
-            </div>
-          </div>
-
-          {/* Auth Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                {...register("email")}
-                id="email"
-                type="email"
-                placeholder="name@example.com"
-                className="h-12 rounded-xl bg-muted/30 border-2 focus:border-primary transition-all"
-              />
-              {errors.email && (
-                <p className="text-xs text-destructive">
-                  {errors.email.message as string}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-primary hover:underline font-medium"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <Input
-                  {...register("password")}
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  className="h-12 rounded-xl bg-muted/30 border-2 pr-12 focus:border-primary transition-all"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full h-12 rounded-xl font-bold text-md shadow-lg shadow-primary/20"
-            >
-              {isSubmitting ? (
-                <>
-                  <FiLoader className="mr-2 h-4 w-4 animate-spin" />
-                  Authenticating...
-                </>
-              ) : (
-                "Sign In"
-              )}
-            </Button>
-          </form>
-
-          <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/signup"
-              className="text-primary font-bold hover:underline"
-            >
-              Sign up for free
-            </Link>
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            Welcome back
+          </h1>
+          <p className="text-zinc-600 dark:text-zinc-400 mt-2 text-lg">
+            Sign in to continue to nova
           </p>
         </div>
-      </div>
 
-      {/* LEFT SIDE: Visual Brand Panel */}
-      <div className="hidden lg:flex w-1/2 bg-[#0a0a0a] relative p-12 overflow-hidden justify-center items-center">
-        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_50%_50%,#3b82f6_0%,transparent_50%)] animate-pulse" />
-
-        <div className="relative z-10 max-w-lg text-center space-y-8">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="inline-flex p-4 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl"
+        {/* Social Login */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          <Button
+            variant="outline"
+            className="h-12 rounded-2xl border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all flex items-center justify-center gap-3"
           >
-            <FiZap className="w-12 h-12 text-primary fill-current" />
-          </motion.div>
+            <FaGoogle className="h-5 w-5" />
+            Google
+          </Button>
+          <Button
+            variant="outline"
+            className="h-12 rounded-2xl border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all flex items-center justify-center gap-3"
+          >
+            <FaGithub className="h-5 w-5" />
+            GitHub
+          </Button>
+        </div>
 
-          <div className="space-y-4">
-            <h2 className="text-4xl font-extrabold text-white tracking-tight">
-              Consistent progress, <br /> visually mapped.
-            </h2>
-            <p className="text-zinc-400 text-lg">
-              "The best way to predict your future health is to track it today."
-            </p>
+        {/* Divider */}
+        <div className="relative mb-8">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-zinc-200 dark:border-zinc-800" />
           </div>
-
-          <div className="pt-8 grid grid-cols-2 gap-4">
-            {[
-              { label: "Streak", val: "12 Days" },
-              { label: "Goal", val: "85%" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md"
-              >
-                <p className="text-zinc-500 text-xs uppercase tracking-wider">
-                  {stat.label}
-                </p>
-                <p className="text-white font-bold text-xl">{stat.val}</p>
-              </div>
-            ))}
+          <div className="relative flex justify-center">
+            <span className="bg-zinc-50 dark:bg-zinc-950 px-4 text-sm text-zinc-500">
+              or continue with email
+            </span>
           </div>
         </div>
-      </div>
+
+        {/* Login Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-zinc-700 dark:text-zinc-400">
+              Email address
+            </Label>
+            <Input
+              {...register("email")}
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              className="h-14 rounded-2xl bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 focus:border-indigo-500 placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password" className="text-zinc-700 dark:text-zinc-400">
+                Password
+              </Label>
+              <Link
+                href="/forgot-password"
+                className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative">
+              <Input
+                {...register("password")}
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                className="h-14 rounded-2xl bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 focus:border-indigo-500 pr-12 placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+              >
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full h-14 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 font-semibold text-lg text-white shadow-xl shadow-indigo-500/30 transition-all active:scale-[0.985]"
+          >
+            {isSubmitting ? (
+              <>
+                <FiLoader className="mr-3 h-5 w-5 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              "Sign In"
+            )}
+          </Button>
+        </form>
+
+        {/* Sign up link */}
+        <p className="text-center mt-8 text-sm text-zinc-600 dark:text-zinc-400">
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/signup"
+            className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline"
+          >
+            Sign up for free
+          </Link>
+        </p>
+      </motion.div>
     </div>
   );
 }

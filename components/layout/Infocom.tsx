@@ -1,248 +1,148 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// CSS imports are safe for SSR
-import "splitting/dist/splitting.css";
-import "splitting/dist/splitting-cells.css";
+// --- Types ---
+interface NavLink {
+  label: string;
+  href: string;
+}
 
-const TypographyShowcase = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Safety check: Ensure we are in the browser and ref is assigned
-    if (typeof window === 'undefined' || !containerRef.current) return;
-
-    let ctx: gsap.Context;
-    let lenis: Lenis;
-
-    const init = async () => {
-      // 1. Setup & Plugins
-      gsap.registerPlugin(ScrollTrigger);
-
-      // 2. Dynamic Import for Splitting
-      // This prevents the "document is not defined" error during build/SSR
-      const Splitting = (await import('splitting')).default;
-      Splitting({ target: containerRef.current! });
-
-      // Helper for wrapping elements (Effect 11, 12)
-      const wrapElements = (elems: NodeListOf<Element>, wrapType: string, wrapClass: string) => {
-        elems.forEach(char => {
-          const wrapEl = document.createElement(wrapType);
-          wrapEl.className = wrapClass; // Corrected from .classList.value
-          char.parentNode?.appendChild(wrapEl);
-          wrapEl.appendChild(char);
-        });
-      };
-
-      // 3. Initialize Scoped Lenis
-      lenis = new Lenis({
-        lerp: 0.1,
-        smoothWheel: true,
-      });
-
-      lenis.on('scroll', ScrollTrigger.update);
-      const scrollFn = (time: number) => {
-        lenis.raf(time);
-        requestAnimationFrame(scrollFn);
-      };
-      requestAnimationFrame(scrollFn);
-
-      // 4. GSAP Animation Context
-      ctx = gsap.context(() => {
-        const select = (s: string) => containerRef.current?.querySelectorAll(s) || [];
-
-        // Effect 1: Random Rotation & Scale
-        select('.content__title[data-effect1]').forEach(title => {
-          gsap.fromTo(title.querySelectorAll('.char'), 
-            { opacity: 0, scale: 0.6, rotationZ: () => gsap.utils.random(-20, 20) },
-            { ease: 'power4', opacity: 1, scale: 1, rotation: 0, stagger: 0.1,
-              scrollTrigger: { trigger: title, start: 'top bottom', end: 'center center', scrub: true }
-            });
-        });
-
-        // Effect 2: Vertical Stretch
-        select('.content__title[data-effect2]').forEach(title => {
-          gsap.fromTo(title.querySelectorAll('.char'),
-            { opacity: 0, yPercent: 120, scaleY: 2.3, scaleX: 0.7, transformOrigin: '50% 0%' },
-            { ease: 'back.inOut(2)', opacity: 1, yPercent: 0, scaleY: 1, scaleX: 1, stagger: 0.03,
-              scrollTrigger: { trigger: title, start: 'center bottom+=50%', end: 'bottom top+=40%', scrub: true }
-            });
-        });
-
-        // Effect 3: Dropdown Scale
-        select('.content__title[data-effect3]').forEach(title => {
-          gsap.fromTo(title.querySelectorAll('.char'),
-            { transformOrigin: '50% 0%', scaleY: 0 },
-            { ease: 'back', scaleY: 1, stagger: 0.03,
-              scrollTrigger: { trigger: title, start: 'center bottom-=5%', end: 'top top-=20%', scrub: true }
-            });
-        });
-
-        // Effect 4: Word-Centric Explosion
-        select('.content__title[data-effect4]').forEach(title => {
-          title.querySelectorAll('.word').forEach(word => {
-            gsap.fromTo(word.querySelectorAll('.char'),
-              { x: (pos, _, arr) => 150 * (pos - arr.length / 2) },
-              { ease: 'power1.inOut', x: 0, stagger: { grid: 'auto', from: 'center' },
-                scrollTrigger: { trigger: word, start: 'center bottom+=30%', end: 'top top+=15%', scrub: true }
-              });
-          });
-        });
-
-        // Effect 5: Chaos to Order
-        select('.content__title[data-effect5]').forEach(title => {
-          gsap.fromTo(title.querySelectorAll('.char'),
-            { opacity: 0, xPercent: () => gsap.utils.random(-200, 200), yPercent: () => gsap.utils.random(-150, 150) },
-            { ease: 'power1.inOut', opacity: 1, xPercent: 0, yPercent: 0, stagger: { each: 0.05, from: 'random' },
-              scrollTrigger: { trigger: title, start: 'center bottom+=10%', end: 'bottom center', scrub: 0.9 }
-            });
-        });
-
-        // Effect 6: 3D Flip X
-        select('.content__title[data-effect6]').forEach(title => {
-          title.querySelectorAll('.word').forEach(word => {
-            const chars = word.querySelectorAll('.char');
-            chars.forEach(c => gsap.set(c.parentNode, { perspective: 2000 }));
-            gsap.fromTo(chars, { opacity: 0, rotationX: -90, yPercent: 50 },
-              { ease: 'power1.inOut', opacity: 1, rotationX: 0, yPercent: 0, stagger: 0.03,
-                scrollTrigger: { trigger: word, start: 'center bottom+=40%', end: 'bottom center-=30%', scrub: 0.9 }
-              });
-          });
-        });
-
-        // Effect 7: 3D Flip Y
-        select('.content__title[data-effect7]').forEach(title => {
-          title.querySelectorAll('.word').forEach(word => {
-            const chars = word.querySelectorAll('.char');
-            chars.forEach(c => gsap.set(c.parentNode, { perspective: 2000 }));
-            gsap.fromTo(chars, { transformOrigin: '100% 50%', opacity: 0, rotationY: -90, z: -300 },
-              { ease: 'expo', opacity: 1, rotationY: 0, z: 0, stagger: { each: 0.06, from: 'end' },
-                scrollTrigger: { trigger: word, start: 'bottom bottom+=20%', end: 'bottom top', scrub: 1 }
-              });
-          });
-        });
-
-        // Effect 8: Hacker/Scramble
-        const symbols = ['!', '@', '#', '$', '%', '&', '*', '+', '=', ';', '<', '>'];
-        select('.content__title[data-effect8]').forEach(title => {
-          title.querySelectorAll('.char').forEach((char) => {
-            const initialHTML = char.innerHTML;
-            gsap.fromTo(char, { opacity: 0 }, {
-              duration: 0.03, innerHTML: () => symbols[Math.floor(Math.random() * symbols.length)],
-              repeat: 1, repeatRefresh: true, opacity: 1, repeatDelay: 0.03,
-              onComplete: () => { gsap.set(char, { innerHTML: initialHTML }); },
-              scrollTrigger: { trigger: title, start: 'top bottom', toggleActions: "play resume resume reset" }
-            });
-          });
-        });
-
-        // Effect 9: Horizontal Compression
-        select('.content__title[data-effect9]').forEach(title => {
-          title.querySelectorAll('.word').forEach(word => {
-            gsap.fromTo(word.querySelectorAll('.char'),
-              { scaleX: 0, x: (_, target) => (window.innerWidth / 2) - (target as HTMLElement).offsetLeft },
-              { ease: 'power1.inOut', scaleX: 1, x: 0, 
-                scrollTrigger: { trigger: word, start: 'top bottom', end: 'top top', scrub: true }
-              });
-          });
-        });
-
-        // Effect 10: Blur In
-        select('.content__title[data-effect10]').forEach(title => {
-          gsap.fromTo(title.querySelectorAll('.char'),
-            { opacity: 0, filter: 'blur(20px)' },
-            { duration: 0.25, ease: 'power1.inOut', opacity: 1, filter: 'blur(0px)', stagger: { each: 0.05, from: 'random' },
-              scrollTrigger: { trigger: title, start: 'top bottom', toggleActions: "play resume resume reset" }
-            });
-        });
-
-        // Effect 11: Slide Mask (X)
-        select('.content__title[data-effect11]').forEach(title => {
-          const chars = title.querySelectorAll('.char');
-          wrapElements(chars, 'span', 'char-wrap overflow-hidden inline-block');
-          gsap.fromTo(chars, { xPercent: 105 },
-            { duration: 1, ease: 'expo', xPercent: 0, stagger: 0.042,
-              scrollTrigger: { trigger: title, start: 'top bottom', toggleActions: "play resume resume reset" }
-            });
-        });
-
-        // Effect 12: Stretch & Slide
-        select('.content__title[data-effect12]').forEach(title => {
-          const chars = title.querySelectorAll('.char');
-          wrapElements(chars, 'span', 'char-wrap overflow-hidden inline-block');
-          gsap.fromTo(chars, { xPercent: -250, rotationZ: 45, scaleX: 6, transformOrigin: '100% 50%' },
-            { duration: 1, ease: 'power2', xPercent: 0, rotationZ: 0, scaleX: 1, stagger: -0.06,
-              scrollTrigger: { trigger: title, start: 'top bottom+=10%', end: 'bottom top+=10%', scrub: true }
-            });
-        });
-
-        // Effect 13: 3D Multi-axis
-        select('.content__title[data-effect13]').forEach(title => {
-          const chars = title.querySelectorAll('.char');
-          chars.forEach(c => gsap.set(c.parentNode, { perspective: 2000 }));
-          gsap.fromTo(chars, { opacity: 0, rotationY: 180, xPercent: -40, yPercent: 100 },
-            { ease: 'power4.inOut', opacity: 1, rotationY: 0, xPercent: 0, yPercent: 0, stagger: -0.03,
-              scrollTrigger: { trigger: title, start: 'center bottom', end: 'bottom center-=30%', scrub: 0.9 }
-            });
-        });
-
-        // Effect 14: Pin & Fly-in
-        select('.content__title[data-effect14]').forEach(title => {
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: title, scrub: true, start: 'center center', end: '+=100%', pin: (title as HTMLElement).parentElement }
-          });
-          tl.fromTo(title, { xPercent: 100 }, { xPercent: 0 })
-            .fromTo(title.querySelectorAll('.char'), { scale: 3, yPercent: -900 }, { scale: 1, yPercent: 0, stagger: 0.05 }, 0);
-        });
-
-        // Effect 15: Pin & 3D Rotate
-        select('.content__title[data-effect15]').forEach(title => {
-          const chars = title.querySelectorAll('.char');
-          chars.forEach(c => gsap.set(c.parentNode, { perspective: 2000 }));
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: title, scrub: true, start: 'center center', end: '+=140%', pin: (title as HTMLElement).parentElement }
-          });
-          tl.fromTo(title, { xPercent: -80 }, { xPercent: 0 })
-            .fromTo(chars, { transformOrigin: '50% 50% -200px', rotationX: 380, opacity: 0 },
-              { rotationX: 0, opacity: 1, stagger: -0.03 }, 0);
-        });
-
-      }, containerRef);
-    };
-
-    init();
-
-    return () => {
-      ctx?.revert();
-      lenis?.destroy();
-    };
-  }, []);
-
+const TitanHero = () => {
   return (
-    <div ref={containerRef} className="bg-black text-white overflow-hidden">
-      {[...Array(15)].map((_, i) => (
-        <section key={i} className="min-h-screen flex items-center justify-center p-10 border-b border-white/10">
-          <h2 
-            className="content__title text-5xl md:text-8xl font-black uppercase leading-none" 
-            data-splitting 
-            {...{ [`data-effect${i + 1}`]: true }}
+    <div className="min-h-screen bg-black p-4 md:p-6 font-sans antialiased selection:bg-[#CCFF00] selection:text-black">
+      {/* Main Container with the "Device" border look */}
+      <div className="relative min-h-[calc(100vh-3rem)] w-full overflow-hidden rounded-[3rem] border-[12px] border-[#1A1A1A] bg-[#0A0A0A]">
+
+        {/* --- Main Hero Section --- */}
+        {/* Adjusted grid-cols to give the right column (image) significantly more space */}
+        <main className="relative z-20 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] items-center gap-8 px-8 md:px-12 pt-16 pb-10">
+          
+          {/* Left Column: Text and Actions */}
+          <div className="flex flex-col justify-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="space-y-1"
+            >
+              {["Be healthier.", "Be stronger.", "Be confident."].map((text, i) => (
+                <motion.h1 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.2 + 0.5 }}
+                  className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[0.95]"
+                >
+                  {text}
+                </motion.h1>
+              ))}
+            </motion.div>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button className="group flex items-center gap-3 rounded-full bg-[#CCFF00] px-8 py-4 font-bold text-black hover:brightness-110 transition-all">
+                Try for free
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-[#CCFF00]">
+                  <Play size={12} fill="currentColor" />
+                </div>
+              </button>
+              <button className="rounded-full bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md border border-white/10 hover:bg-white/20 transition-all">
+                More about Titan
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Image (Expanded Space) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+            className="relative flex items-center justify-center h-full min-h-[500px] lg:min-h-[650px] w-full"
           >
-            Effect {i + 1}
-          </h2>
-        </section>
-      ))}
-      
-      <style jsx global>{`
-        .char-wrap { position: relative; }
-        .overflow-hidden { overflow: hidden; }
-        .inline-block { display: inline-block; }
-      `}</style>
+            {/* Using fill + object-contain to maximize the image size within the new wide column */}
+            <Image 
+              src="/unsplash.jpg" 
+              alt="Athlete on treadmill"
+              fill
+              className="object-contain object-center grayscale-[0.2]"
+              priority
+            />
+          </motion.div>
+
+        </main>
+
+        {/* --- Bottom Grid Section --- */}
+        <div className="relative z-20 px-8 md:px-12 pb-12 mt-12 grid grid-cols-1 md:grid-cols-12 gap-5">
+          {/* Left Card: Social Proof */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="md:col-span-4 rounded-[2.5rem] bg-white/10 p-8 backdrop-blur-xl border border-white/10 flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-3">
+                {[1,2,3].map(i => (
+                  <div key={i} className="h-10 w-10 rounded-full border-2 border-black bg-gray-600" />
+                ))}
+              </div>
+              <div>
+                <p className="text-xl font-bold text-white">10,000+</p>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">Satisfied clients</p>
+              </div>
+            </div>
+            <p className="mt-6 text-sm leading-relaxed text-gray-400">
+              They arrive with different goals, yet they all find the support and motivation they need. Their success is the ultimate validation of our method.
+            </p>
+          </motion.div>
+
+          {/* Middle Card: Floating Tip */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4 }}
+            className="md:col-span-4 relative flex flex-col justify-end p-8"
+          >
+            <div className="rounded-[2rem] bg-white/5 border border-white/5 p-6 backdrop-blur-sm">
+              <div className="flex justify-between items-center mb-4">
+                <button className="p-2 rounded-full bg-white/10 text-white"><ChevronLeft size={16}/></button>
+                <p className="text-[10px] text-center uppercase tracking-widest text-gray-500">
+                  Your muscles grow while you sleep.<br/>Make 7-9 hours your secret weapon.
+                </p>
+                <button className="p-2 rounded-full bg-white/10 text-white"><ChevronRight size={16}/></button>
+              </div>
+              <div className="flex justify-between text-[10px] font-medium text-gray-400 uppercase">
+                <span>Moscow, Russia</span>
+                <span>Nov 20</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Card: Neon CTA */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.6 }}
+            whileHover={{ scale: 1.02 }}
+            className="md:col-span-4 cursor-pointer rounded-[2.5rem] bg-[#CCFF00] p-8 text-black flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="absolute top-6 right-6 h-10 w-10 rounded-full bg-black flex items-center justify-center text-[#CCFF00]">
+              <ArrowUpRight size={20} />
+            </div>
+            <div className="mt-12">
+              <h3 className="text-3xl font-black leading-tight">Get 14 days<br/>for free</h3>
+              <p className="mt-2 text-sm font-semibold opacity-70">
+                Just give us a call or message us in the chat
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default TypographyShowcase;
+export default TitanHero;
