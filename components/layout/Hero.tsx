@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, RefObject } from "react";
 import { gsap } from "gsap";
 import img03 from "../../public/xxyy.png";
 
+
 const IMG_CLASS = "w-[100%] h-[60%] object-cover rounded-lg md:w-[90vw] md:h-auto md:max-w-[1200px] md:object-contain mt-[-13vh] md:mt-0";
 
 function HeroText({ textRef }: { textRef: RefObject<(HTMLElement | null)[]> }) {
@@ -25,6 +26,7 @@ function HeroText({ textRef }: { textRef: RefObject<(HTMLElement | null)[]> }) {
           Fitness Arena
         </h2>
       </div>
+      
     </div>
   );
 }
