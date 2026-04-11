@@ -1,78 +1,141 @@
-'use client';
+"use client";
 
 /* eslint-disable @next/next/no-img-element */
+import { useEffect, useRef, RefObject } from "react";
+import { gsap } from "gsap";
 import img03 from "../../public/xxyy.png";
 
-// Updated classes for a bigger mobile presence
-// const IMG_CLASS = 
-//   "w-full h-full min-h-[100dvh] object-cover scale-110 md:scale-100 md:w-[90vw] md:h-auto md:max-w-[1200px] md:object-contain";
+const IMG_CLASS =
+  "w-[100%] h-[60%] object-cover rounded-lg md:w-[90vw] md:h-auto md:max-w-[1200px] md:object-contain mt-[-18vh] md:mt-0";
 
-
-const IMG_CLASS = 
-  "w-[100%] h-[60%] object-cover rounded-lg md:w-[90vw] md:h-auto md:max-w-[1200px] md:object-contain";
-
-
-
-
-
-
-
-
-
-
-// function HeroText() {
-//   return (
-//     <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-[8vh] md:pb-[2.5vh] pointer-events-none">
-//       <div className="w-fit h-fit overflow-hidden pb-0 md:pb-1">
-//         <h1 className="font-(family-name:--font-display) uppercase text-[14vw] md:text-[12vw] leading-none tracking-[0.06em] text-center text-white dark:text-white">
-//           NOVa
-//         </h1>
-//       </div>
-
-//       <div className="w-fit h-fit overflow-hidden pb-0.5 md:pb-1">
-//         <h1 className="font-(family-name:--font-display) uppercase text-[12vw] md:text-[10vw] leading-none tracking-[0.06em] text-center text-white dark:text-white/40">
-//           Fitness Arena
-//         </h1>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-function HeroText() {
+function HeroText({ textRef }: { textRef: RefObject<(HTMLElement | null)[]> }) {
   return (
     <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-[8vh] md:pb-[3vh] pointer-events-none">
-      
-      {/* NOVA */}
       <div className="overflow-hidden">
-        <h1 className="font-[Orbitron] uppercase text-[15vw] md:text-[11vw] leading-none tracking-[0.12em] text-center text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.25)]">
+        <h1
+          ref={(el) => {
+            if (textRef.current) textRef.current[0] = el;
+          }}
+          className="font-[Orbitron] uppercase text-[15vw] md:text-[11vw] leading-none tracking-[0.12em] text-center text-white opacity-0 translate-y-[120px] scale-110"
+        >
           NOVA
         </h1>
       </div>
 
-      {/* Fitness Arena */}
       <div className="overflow-hidden">
-        <h2 className="font-[Orbitron] uppercase text-[6vw] md:text-[4vw] leading-none tracking-[0.35em] text-center text-white/70 dark:text-white/40">
+        <h2
+          ref={(el) => {
+            if (textRef.current) textRef.current[1] = el;
+          }}
+          className="font-[Orbitron] uppercase text-[6vw] md:text-[4vw] leading-none tracking-[0.35em] text-center text-white/70 opacity-0 translate-y-[120px]"
+        >
           Fitness Arena
         </h2>
       </div>
-
     </div>
   );
 }
 
-
-
 export default function Alexandra() {
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
+  const textRef = useRef([]);
+
+  useEffect(() => {
+    const runAnimation = () => {
+      const tl = gsap.timeline();
+
+      // subtle background fade
+      tl.fromTo(
+        containerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6 },
+      )
+
+        // cinematic image reveal (zoom + slight rotate)
+        .fromTo(
+          imageRef.current,
+          { scale: 1.4, opacity: 0, rotate: 2 },
+          {
+            scale: 1,
+            opacity: 1,
+            rotate: 0,
+            duration: 1.6,
+            ease: "power4.out",
+          },
+          "-=0.3",
+        )
+
+        // text reveal (smooth + premium)
+        .to(
+          textRef.current,
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.2,
+            duration: 1,
+            ease: "power4.out",
+          },
+          "-=1",
+        );
+
+      // 🔥 subtle parallax effect (mouse move)
+      interface MouseCoordinates {
+        x: number;
+        y: number;
+      }
+
+      interface GsapAnimationConfig {
+        x: number;
+        y: number;
+        duration: number;
+        ease: string;
+      }
+
+      const handleMove = (e: MouseEvent): void => {
+        const x: number = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y: number = (e.clientY / window.innerHeight - 0.5) * 20;
+
+        const imageConfig: GsapAnimationConfig = {
+          x: x,
+          y: y,
+          duration: 1,
+          ease: "power3.out",
+        };
+
+        const textConfig: GsapAnimationConfig = {
+          x: x * 0.5,
+          y: y * 0.5,
+          duration: 1,
+          ease: "power3.out",
+        };
+
+        gsap.to(imageRef.current, imageConfig);
+        gsap.to(textRef.current, textConfig);
+      };
+
+      window.addEventListener("mousemove", handleMove);
+    };
+
+    window.addEventListener("preloaderDone", runAnimation);
+
+    return () => {
+      window.removeEventListener("preloaderDone", runAnimation);
+    };
+  }, []);
+
   return (
-    <div className="relative h-dvh w-dvw overflow-hidden flex justify-center items-center bg-black">
-      {/* BIG IMAGE */}
-      <img
-        src={img03.src}
-        alt="Hero"
-        className={IMG_CLASS}
-      />
-      <HeroText />
+    <div
+      ref={containerRef}
+      className="relative  h-dvh w-dvw overflow-hidden flex justify-center items-center bg-black opacity-0"
+    >
+      {/* glow overlay */}
+      <div className=" absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,0,0,0.15),transparent_60%)] pointer-events-none" />
+
+      <img ref={imageRef} src={img03.src} alt="Hero" className={IMG_CLASS} />
+
+      <HeroText textRef={textRef} />
     </div>
   );
 }

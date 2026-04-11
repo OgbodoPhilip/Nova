@@ -12,7 +12,10 @@ export default function Preloader({ text = "NovaFitness" }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        // Fade out the whole preloader after animation
+        // 🔥 TRIGGER HERO ANIMATION
+        window.dispatchEvent(new Event("preloaderDone"));
+
+        // Fade out preloader
         gsap.to(".preloader-overlay", {
           opacity: 0,
           duration: 0.5,
@@ -44,8 +47,6 @@ export default function Preloader({ text = "NovaFitness" }) {
   if (!visible) return null;
 
   const chars = text.split("");
-
-  // insert space after 4th letter
   chars.splice(4, 0, " ");
 
   return (
@@ -83,16 +84,12 @@ export default function Preloader({ text = "NovaFitness" }) {
         .text span::before {
           content: attr(data-text);
           position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
+          inset: 0;
           background-image: linear-gradient(45deg, #ff0000, #ff3333, #ff6600, #cc0000);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           clip-path: var(--clipPath);
-          -webkit-clip-path: var(--clipPath);
         }
       `}</style>
 
@@ -112,7 +109,7 @@ export default function Preloader({ text = "NovaFitness" }) {
             >
               {char}
             </span>
-          ),
+          )
         )}
       </div>
     </div>
