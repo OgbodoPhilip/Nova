@@ -16,9 +16,8 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { name: "Home", href: "/" },
+ { name: "Dashboard", href: "/dashboard" },
   { name: "Features", href: "/feature" },
-  { name: "Dashboard", href: "/dashboard" },
   { name: "Workouts", href: "/workouts" },
   { name: "Pricing", href: "/pricing" },
 ];
@@ -77,7 +76,7 @@ export default function Navbar() {
           onMouseLeave={() => setHoveredPath(null)}
         >
           {navItems.map((item) => (
-            <Link
+            <Link 
               key={item.name}
               href={item.href}
               onMouseEnter={() => setHoveredPath(item.href)}
@@ -88,7 +87,7 @@ export default function Navbar() {
                   : "text-slate-600 dark:text-white hover:text-slate-900 dark:hover:text-white"
               )}
             >
-              <span className="relative z-10">{item.name}</span>
+              <motion.div whileTap={{scale:0.8}} className="relative z-10">{item.name}</motion.div>
 
               {isActive(item.href) && (
                 <motion.div
@@ -178,7 +177,7 @@ export default function Navbar() {
                     <Link href="/login" onClick={() => setOpen(false)}>
                       <Button
                         variant="outline"
-                        className="w-full h-16 rounded-3xl text-lg font-semibold border-2"
+                        className="w-full mt-3 h-16 rounded-3xl text-lg font-semibold border-2"
                       >
                         Log in
                       </Button>
@@ -191,6 +190,9 @@ export default function Navbar() {
 
           {/* Desktop Right Side */}
           <div className="hidden md:flex items-center gap-6">
+            <motion.div whileTap={{scale:0.9}}>
+
+           
             <Link
               href="/login"
               className="text-lg font-medium text-slate-600 dark:text-white hover:text-slate-900 dark:hover:text-white transition-colors"
@@ -198,21 +200,30 @@ export default function Navbar() {
               Login
             </Link>
 
+             </motion.div>
+
+
+            <motion.div whileTap={{scale:0.9}}>
+
+            
             <Link href="/signup">
-              <Button
+              <Button 
                 size="lg"
                 className="rounded-full px-8 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg shadow-indigo-500/30 border-none relative overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                <span className="relative flex items-center gap-2 font-semibold">
+                <span  className="relative flex items-center gap-2 font-semibold">
                   Get Started <Sparkles className="w-4 h-4" />
                 </span>
               </Button>
             </Link>
+            </motion.div>
           </div>
 
           {/* Theme Toggler */}
+         
           <AnimatedThemeToggler />
+         
         </div>
       </nav>
     </header>

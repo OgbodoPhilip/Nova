@@ -163,24 +163,27 @@ export default function SignupPage() {
         </form>
 
         {/* Login link */}
-        <p className="text-center mt-8 text-sm text-zinc-600 dark:text-zinc-400">
-          Already have an account?{" "}
-          <Link
+        <div className="flex justify-between mt-2 text-md text-zinc-600 dark:text-zinc-400">
+         <p> Already have an account?{" "}</p>
+
+         <motion.div whileTap={{scale:0.9}}>
+           <Link
             href="/login"
-            className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline"
+            className="text-indigo-600 dark:text-indigo-400 font-medium "
           >
             Sign in
           </Link>
-        </p>
+         </motion.div>
+        </div>
 
         {/* Terms */}
         <p className="text-center mt-6 text-xs text-zinc-500 dark:text-zinc-500 px-6 leading-relaxed">
           By creating an account, you agree to our{" "}
-          <Link href="#" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
+          <Link href="#" className="text-blue-500 hover:text-zinc-700 dark:hover:text-zinc-300">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="#" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
+          <Link href="#" className="text-blue-500 hover:text-zinc-700 dark:hover:text-zinc-300">
             Privacy Policy
           </Link>
         </p>

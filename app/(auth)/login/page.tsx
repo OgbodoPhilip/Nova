@@ -63,14 +63,16 @@ export default function LoginPage() {
         {/* Social Login */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           <Button
-            variant="outline"
+            variant="secondary"
             className="h-12 rounded-2xl border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all flex items-center justify-center gap-3"
           >
             <FaGoogle className="h-5 w-5" />
             Google
           </Button>
+
+          
           <Button
-            variant="outline"
+            variant="secondary"
             className="h-12 rounded-2xl border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all flex items-center justify-center gap-3"
           >
             <FaGithub className="h-5 w-5" />
@@ -113,12 +115,19 @@ export default function LoginPage() {
               <Label htmlFor="password" className="text-zinc-700 dark:text-zinc-400">
                 Password
               </Label>
+
+              <motion.div whileTap={{scale:0.9}}>
+
+              
               <Link
                 href="/forgot-password"
-                className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+                className="text-md text-indigo-600 dark:text-indigo-400"
               >
                 Forgot password?
               </Link>
+              </motion.div>
+
+
             </div>
             <div className="relative">
               <Input
@@ -155,15 +164,20 @@ export default function LoginPage() {
         </form>
 
         {/* Sign up link */}
-        <p className="text-center mt-8 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="text-center mt-2 text-md text-zinc-600 dark:text-zinc-400 flex justify-between">
           Don&apos;t have an account?{" "}
+
+          <motion.div whileTap={{scale:0.9}}>
+
+         
           <Link
             href="/signup"
-            className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline"
+            className="text-indigo-600 dark:text-indigo-400 font-medium"
           >
-            Sign up for free
+            Sign up
           </Link>
-        </p>
+           </motion.div>
+        </div>
       </motion.div>
     </div>
   );
