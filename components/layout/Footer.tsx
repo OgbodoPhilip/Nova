@@ -1,6 +1,7 @@
 import React from "react";
 import { Send, Heart, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
@@ -28,15 +29,18 @@ const Footer = () => {
                   placeholder="Your email address"
                   className="w-full bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-300 dark:border-zinc-800 rounded-full py-4 pl-6 pr-14 text-sm outline-none focus:border-[#FF0000]/60 transition-all placeholder:text-zinc-500 dark:placeholder:text-zinc-700"
                 />
-                <button
+
+                <motion.button  whileTap={{ scale: 0.9 }} 
                   type="submit"
                   className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#FF0000] text-white p-2.5 rounded-full hover:bg-red-700 transition-colors group"
                 >
-                  <ArrowRight
+                  
+                    <ArrowRight
                     size={18}
                     className="group-hover:translate-x-0.5 transition-transform"
                   />
-                </button>
+                 
+                </motion.button>
               </form>
               <p className="text-zinc-500 dark:text-zinc-400 text-[10px] pl-2 italic tracking-wide">
                 Get the latest design insights and studio updates.
@@ -74,7 +78,7 @@ const Footer = () => {
                   rows={3}
                   className="sm:col-span-2 bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-300 dark:border-zinc-800 rounded-xl py-4 px-5 text-sm outline-none focus:border-[#FF0000]/40 transition-all placeholder:text-zinc-500 dark:placeholder:text-zinc-700 resize-none"
                 />
-                <button
+                <motion.button whileTap={{ scale: 0.9 }} 
                   type="submit"
                   className="sm:col-span-2 flex items-center justify-center gap-3 bg-[#FF0000] hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all uppercase tracking-widest text-xs group"
                 >
@@ -83,14 +87,14 @@ const Footer = () => {
                     size={14}
                     className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
                   />
-                </button>
+                </motion.button>
               </form>
             </div>
 
             {/* The 4-Column Navigation Grid - Last on mobile */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {/* 1. Location */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <h4 className="text-zinc-500 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-[0.2em]">
                   Location
                 </h4>
@@ -102,7 +106,7 @@ const Footer = () => {
               </div>
 
               {/* 2. Contact */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <h4 className="text-zinc-500 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-[0.2em]">
                   Contact
                 </h4>
@@ -117,7 +121,7 @@ const Footer = () => {
               </div>
 
               {/* 3. Social */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <h4 className="text-zinc-500 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-[0.2em]">
                   Social
                 </h4>
@@ -129,9 +133,9 @@ const Footer = () => {
                         className="flex items-center gap-2 group cursor-pointer w-fit"
                       >
                         <div className="w-1 h-1 bg-[#FF0000] rounded-sm opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <span className="text-zinc-600 dark:text-zinc-400 text-sm group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
+                        <motion.span whileTap={{scale:0.85}} className="text-zinc-600 dark:text-zinc-400 text-sm group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
                           {social}
-                        </span>
+                        </motion.span>
                       </div>
                     ),
                   )}
@@ -139,7 +143,7 @@ const Footer = () => {
               </div>
 
               {/* 4. Helpful Links */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <h4 className="text-zinc-500 dark:text-zinc-400 text-[11px] font-bold uppercase tracking-[0.2em]">
                   Links
                 </h4>
@@ -160,18 +164,28 @@ const Footer = () => {
 
         {/* Bottom Metadata Row */}
         <div className="flex flex-col md:flex-row items-center gap-6 pb-10 text-[11px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wider justify-center">
-          <div className=" pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-            <p>© 2026 nova Fitness. Built with precision for the community.</p>
+          <div className=" pt-8 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-muted-foreground">
+            <p>© 2026 Nova Fitness. All right reserved.  </p>
+            <p>Built with precision for the community.</p>
+           
             <div className="flex gap-4">
+              <motion.div whileTap={{ scale: 0.9 }} >
               <Link href="#" className="hover:text-primary">
                 Privacy Policy
               </Link>
+               </motion.div>
+
+               <motion.div whileTap={{ scale: 0.9 }} >
               <Link href="#" className="hover:text-primary">
                 Terms of Service
               </Link>
+              </motion.div>
+
+              <motion.div whileTap={{ scale: 0.9 }} >
               <Link href="#" className="hover:text-primary">
                 Cookie Settings
               </Link>
+              </motion.div>
             </div>
           </div>
         </div>

@@ -77,17 +77,17 @@ export default function FullyInteractiveTestimonials() {
 
       <div className="container mx-auto px-6 relative">
         <div className="text-center mb-12">
-          <h2 className="text-5xl md:text-7xl font-black mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-rose-400 to-purple-500">
+          <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tight  ">
             Community Voices
           </h2>
           
-          <button
+          <motion.button whileTap={{scale:0.85}}
             onClick={() => setShowForm(!showForm)}
             className="flex items-center gap-2 mx-auto px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-all border border-white/10 group"
           >
             <Plus className={`w-5 h-5 transition-transform ${showForm ? 'rotate-45' : ''}`} />
             <span className="font-bold uppercase tracking-widest text-sm">{showForm ? "Cancel" : "Drop a Review"}</span>
-          </button>
+          </motion.button>
         </div>
 
         {/* Dynamic Form with Image Upload */}
@@ -189,8 +189,8 @@ export default function FullyInteractiveTestimonials() {
                 className="break-inside-avoid"
               >
                 <Card className="relative border-none bg-white/5 backdrop-blur-md overflow-hidden group shadow-xl shadow-black/30">
-                  {/* Decorative Gradient Border */}
-                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${t.color}`} />
+                 
+                 
                   
                   <CardContent className="p-8 relative">
                     <div className="flex gap-1 mb-6">
@@ -203,14 +203,14 @@ export default function FullyInteractiveTestimonials() {
                     
                     <div className="flex items-center gap-4">
                       {/* Avatar Frame with custom image support */}
-                      <div className={`p-[1.5px] rounded-full bg-gradient-to-tr ${t.color}`}>
+                      <div className={`p-[1.5px] rounded-full bg-red-500 ${t.color}`}>
                         <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-900 border-2 border-gray-900">
                           <img src={t.avatar} className="w-full h-full object-cover" alt={t.name} />
                         </div>
                       </div>
                       <div>
                         <h4 className="font-bold text-sm text-white leading-none mb-1">{t.name}</h4>
-                        <p className={`text-[10px] font-bold uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r ${t.color}`}>{t.role}</p>
+                        <p className={`text-[10px] font-bold uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r text-white`}>{t.role}</p>
                       </div>
                     </div>
                   </CardContent>
