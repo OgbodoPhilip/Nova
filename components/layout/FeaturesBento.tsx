@@ -59,9 +59,9 @@ const features = [
 
 export default function FeaturesBento() {
   return (
-    <section id="features" className="py-24 bg-background">
+    <section id="features" className="pb-12 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
             Everything you need to level up.
           </h2>

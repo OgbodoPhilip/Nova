@@ -23,51 +23,51 @@ export default function ProofOfWork() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 1. Initialize Smooth Scroll (Lenis)
+    // 1. Initialize Lenis (Smooth Scroll)
     const lenis = new Lenis();
+    
+    const onScroll = (time: number) => {
+      lenis.raf(time);
+      requestAnimationFrame(onScroll);
+    };
+    requestAnimationFrame(onScroll);
+
+    // Sync ScrollTrigger with Lenis
     lenis.on("scroll", ScrollTrigger.update);
-    GSAP.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-    GSAP.ticker.lagSmoothing(0);
 
     // 2. Animation Logic
     const workItems = GSAP.utils.toArray<HTMLElement>(".work-img");
-    const isDesktop = window.innerWidth > 768;
 
     workItems.forEach((img, index) => {
-      // Set initial state: Hidden, rotated, and pushed down
+      // Set Initial State
       GSAP.set(img, {
-        rotation: index % 2 === 0 ? -45 : 45,
-        transformOrigin: "center center",
-        y: isDesktop ? 400 : 250,
+        rotation: index % 2 === 0 ? -15 : 15, // Less extreme rotation
+        y: 150, // Pushed down slightly (within container bounds)
         opacity: 0,
-        scale: 0.8
+        scale: 0.9,
+        transformOrigin: "center center",
       });
 
-      // Create Trigger for each image
-      ScrollTrigger.create({
-        trigger: img,
-        start: isDesktop ? "top 105%" : "top 115%",
-        onEnter: () => {
-          GSAP.to(img, {
-            rotation: 0,
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1.2,
-            ease: "power3.out",
-            // Stagger slightly on desktop for the two-column layout
-            delay: isDesktop ? (index % 2 === 0 ? 0 : 0.2) : 0
-          });
-        },
-        // Reset animation if user scrolls back up (optional)
-        onLeaveBack: () => {
-          GSAP.to(img, { opacity: 0, y: 100, duration: 0.5 });
+      // Create the Reveal Animation
+      GSAP.to(img, {
+        rotation: 0,
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.4,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: img,
+          // Start when top of image hits 90% of viewport height
+          start: "top 90%",
+          // End when bottom of image leaves 10% of viewport height
+          end: "bottom 10%",
+          toggleActions: "play none none reverse", // Plays forward on enter, reverses on leaveBack
         }
       });
     });
 
+    // Cleanup
     return () => {
       lenis.destroy();
       ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -75,38 +75,38 @@ export default function ProofOfWork() {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="bg-white min-h-screen w-full selection:bg-black selection:text-white">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-20 md:py-32">
+    <div ref={containerRef} className="bg-red min-h-screen w-full selection:bg-black selection:text-white">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-10 md:py-18">
         
         {/* Title */}
-        <h1 className="font-(family-name:--font-display) text-[15vw] md:text-[12vw] leading-[0.8] text-center uppercase tracking-tighter mb-20 md:mb-40">
-          My Works
+        <h1 className="text-[10vw] md:text-[8vw] leading-[0.8] text-center uppercase tracking-tighter mb-10 md:mb-20">
+          Nova Gallery
         </h1>
 
         {/* Works Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-24 md:gap-y-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6 ">
           {WORKS_DATA.map((work, index) => (
             <div 
               key={index} 
               className={cn(
                 "flex flex-col group",
-                // Offset every second item on desktop for a more dynamic feel
-                index % 2 !== 0 ? "md:mt-40" : ""
+                // Stagger column layout for visual interest on larger screens
+                index % 2 !== 0 ? "lg:mt-40" : ""
               )}
             >
-              <div className="overflow-hidden aspect-square bg-gray-100">
+              <div className="overflow-hidden aspect-[4/5] bg-gray-100 rounded-3xl">
                 <img
                   src={work.img}
                   alt={work.title}
-                  className="work-img w-full h-full object-cover will-change-transform"
+                  className="work-img w-full h-full object-cover will-change-transform rounded-3xl"
                 />
               </div>
               
-              <div className="mt-6">
-                <p className="text-lg md:text-xl font-semibold uppercase tracking-tight leading-none">
+              <div className="mt-3">
+                <p className="text-lg md:text-xl font-bold uppercase tracking-tight leading-none">
                   {work.title}
                 </p>
-                <span className="text-sm md:text-base text-black/50 font-medium mt-2 block">
+                <span className="text-sm md:text-base text-black/40 font-medium mt-0 block">
                   {work.category}
                 </span>
               </div>
@@ -118,7 +118,9 @@ export default function ProofOfWork() {
   );
 }
 
-// Utility for cleaner classes
-function cn(...classes: string[]) {
+/**
+ * Utility for conditional Tailwind classes
+ */
+function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
