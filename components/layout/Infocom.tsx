@@ -42,7 +42,7 @@ const TitanHero = () => {
               )}
             </motion.div>
 
-            <div className="mt-8 flex gap-2">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <button className="group flex items-center gap-3 rounded-full bg-[#CCFF00] px-4 py-4 font-bold text-black hover:brightness-110 transition-all">
                 Try for free
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-[#CCFF00]">
