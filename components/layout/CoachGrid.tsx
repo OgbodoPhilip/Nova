@@ -173,11 +173,11 @@ const TeamSection: React.FC = () => {
       className="w-full overflow-x-hidden font-['Syne'] bg-gradient-to-t from-[#FAFAF5] to-[#BEC430] pb-12 md:pb-24"
     >
       {/* HERO SECTION - Adjusted height for better flow */}
-      <section className="h-[40vh] md:h-[50vh] flex flex-col justify-end items-center text-center px-8 pb-16">
-        <h2 className="text-6xl md:text-9xl font-extrabold tracking-tight text-black">
+      <section className="h-[30vh] md:h-[30vh] flex flex-col justify-end items-center text-center px-8 pb-16">
+        <h2 className="text-6xl md:text-6xl font-extrabold tracking-tight text-black">
           Our Team
         </h2>
-        <p className="text-black/60 mt-4 max-w-md">
+        <p className="text-black/60 mt-0 max-w-md">
           Meet the experts behind the brand.
         </p>
       </section>
