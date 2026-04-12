@@ -26,7 +26,7 @@ const teamMembers: TeamMember[] = [
     quote:
       "Clean code is not written by following rules. It's written by caring.",
     image:
-      "https://i.pinimg.com/736x/6b/c0/0d/6bc00df634e26ef044553ac2a4091ac0.jpg",
+      "https://images.unsplash.com/photo-1652532678111-85849708e1f4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODd8fG11c2N1bGFyJTIwZ3ltJTIwbWFufGVufDB8fDB8fHww",
     number: "01 / 08",
     portfolio: "https://www.google.com",
   },
@@ -36,7 +36,7 @@ const teamMembers: TeamMember[] = [
     role: "Graphics Designer",
     quote: "Design is intelligence made visible.",
     image:
-      "https://i.pinimg.com/1200x/d6/79/d3/d679d37ded0acabd6751fbff183be042.jpg",
+      "https://images.unsplash.com/photo-1664673810612-0a27865e12b1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njd8fGZlbWFsZSUyMGd5bSUyMGNvYWNofGVufDB8fDB8fHww",
     number: "02 / 08",
     portfolio: "/login",
   },
@@ -46,7 +46,7 @@ const teamMembers: TeamMember[] = [
     role: "Customer Relation Officer",
     quote: "Simplicity is the ultimate sophistication.",
     image:
-      "https://i.pinimg.com/1200x/a0/95/24/a095243e3f12696e7b7a78081b77c8c2.jpg",
+      "https://images.unsplash.com/photo-1667890786327-d28da55b0e57?q=80&w=707&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     number: "03 / 08",
     portfolio: "/loginnnmmnnnnbb",
   },
@@ -56,50 +56,11 @@ const teamMembers: TeamMember[] = [
     role: "Frontend Engineer",
     quote: "Automate everything. Question nothing.",
     image:
-      "https://i.pinimg.com/736x/15/d9/7f/15d97ffc2ec9f969be08f0260be2e608.jpg",
+      "https://images.unsplash.com/photo-1642267238449-5f2c7643c1a7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI1fHx8ZW58MHx8fHx8",
     number: "04 / 08",
     portfolio: "/login",
   },
-  {
-    id: "5",
-    name: "The Prince",
-    role: "Backend Engineer",
-    quote: "Ship fast. Learn faster.",
-    image:
-      "https://i.pinimg.com/1200x/ee/ec/14/eeec14370c100eec38eaa7ed1f002d70.jpg",
-    number: "05 / 08",
-    portfolio: "/login",
-  },
-  {
-    id: "6",
-    name: "Chidi Nwoke",
-    role: "Backend Developer",
-    quote: "Every pixel tells a story.",
-    image:
-      "https://i.pinimg.com/736x/d6/c2/4f/d6c24f87f5cbbace27139dfae59faa9e.jpg",
-    number: "06 / 08",
-    portfolio: "/login",
-  },
-  {
-    id: "7",
-    name: "Eze Marcus",
-    role: "CyberSecurity",
-    quote: "Trust no one. Verify everything.",
-    image:
-      "https://i.pinimg.com/736x/0f/39/83/0f39834471233115208b57ec9f227344.jpg",
-    number: "07 / 08",
-    portfolio: "/login",
-  },
-  {
-    id: "8",
-    name: "Philips",
-    role: "Chief Executive Officer",
-    quote: "In data we trust. In models we verify.",
-    image:
-      "https://i.pinimg.com/736x/78/b4/28/78b428a174dc782a5f886e06e7561a34.jpg",
-    number: "08 / 08",
-    portfolio: "/login",
-  },
+ 
 ];
 
 const TeamSection: React.FC = () => {
