@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 // --- Types ---
 interface NavLink {
@@ -41,19 +42,19 @@ const TitanHero = () => {
                 ),
               )}
             </motion.div>
-
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <button className="group flex items-center gap-3 rounded-full bg-[#CCFF00] px-4 py-4 font-bold text-black hover:brightness-110 transition-all">
+              <Link href="/hero" className="group flex items-center gap-3 rounded-full bg-[#CCFF00] px-4 py-4 font-bold text-black hover:brightness-110 transition-all justify-center">
                 Try for free
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-[#CCFF00]">
                   <Play size={12} fill="currentColor" />
                 </div>
-              </button>
+              </Link>
 
-              <button className="rounded-full bg-white/10 px-4 py-4 font-bold text-white backdrop-blur-md border border-white/10 hover:bg-white/20 transition-all">
+              <Link href="/pricing" className="rounded-full bg-white/10 px-4 py-4 font-bold text-white backdrop-blur-md border border-white/10 hover:bg-white/20 transition-all">
                 More about Titan
-              </button>
+              </Link>
             </div>
+            
           </div>
 
           {/* Right Column: Image (Expanded Space) */}

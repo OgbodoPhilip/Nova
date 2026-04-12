@@ -15,6 +15,7 @@ interface TeamMember {
   quote: string;
   image: string;
   number: string;
+  portfolio: string;
 }
 
 const teamMembers: TeamMember[] = [
@@ -22,65 +23,82 @@ const teamMembers: TeamMember[] = [
     id: "1",
     name: "King Roy",
     role: "Mobile Developer",
-    quote: "Clean code is not written by following rules. It's written by caring.",
-    image: "https://i.pinimg.com/736x/6b/c0/0d/6bc00df634e26ef044553ac2a4091ac0.jpg",
+    quote:
+      "Clean code is not written by following rules. It's written by caring.",
+    image:
+      "https://i.pinimg.com/736x/6b/c0/0d/6bc00df634e26ef044553ac2a4091ac0.jpg",
     number: "01 / 08",
+    portfolio: "https://www.google.com",
   },
   {
     id: "2",
     name: "Adam Eign",
     role: "Graphics Designer",
     quote: "Design is intelligence made visible.",
-    image: "https://i.pinimg.com/1200x/d6/79/d3/d679d37ded0acabd6751fbff183be042.jpg",
+    image:
+      "https://i.pinimg.com/1200x/d6/79/d3/d679d37ded0acabd6751fbff183be042.jpg",
     number: "02 / 08",
+    portfolio: "/login",
   },
   {
     id: "3",
     name: "Amanda Chidi",
     role: "Customer Relation Officer",
     quote: "Simplicity is the ultimate sophistication.",
-    image: "https://i.pinimg.com/1200x/a0/95/24/a095243e3f12696e7b7a78081b77c8c2.jpg",
+    image:
+      "https://i.pinimg.com/1200x/a0/95/24/a095243e3f12696e7b7a78081b77c8c2.jpg",
     number: "03 / 08",
+    portfolio: "/loginnnmmnnnnbb",
   },
   {
     id: "4",
     name: "Cynthia Moore",
     role: "Frontend Engineer",
     quote: "Automate everything. Question nothing.",
-    image: "https://i.pinimg.com/736x/15/d9/7f/15d97ffc2ec9f969be08f0260be2e608.jpg",
+    image:
+      "https://i.pinimg.com/736x/15/d9/7f/15d97ffc2ec9f969be08f0260be2e608.jpg",
     number: "04 / 08",
+    portfolio: "/login",
   },
   {
     id: "5",
     name: "The Prince",
     role: "Backend Engineer",
     quote: "Ship fast. Learn faster.",
-    image: "https://i.pinimg.com/1200x/ee/ec/14/eeec14370c100eec38eaa7ed1f002d70.jpg",
+    image:
+      "https://i.pinimg.com/1200x/ee/ec/14/eeec14370c100eec38eaa7ed1f002d70.jpg",
     number: "05 / 08",
+    portfolio: "/login",
   },
   {
     id: "6",
     name: "Chidi Nwoke",
     role: "Backend Developer",
     quote: "Every pixel tells a story.",
-    image: "https://i.pinimg.com/736x/d6/c2/4f/d6c24f87f5cbbace27139dfae59faa9e.jpg",
+    image:
+      "https://i.pinimg.com/736x/d6/c2/4f/d6c24f87f5cbbace27139dfae59faa9e.jpg",
     number: "06 / 08",
+    portfolio: "/login",
   },
   {
     id: "7",
     name: "Eze Marcus",
     role: "CyberSecurity",
     quote: "Trust no one. Verify everything.",
-    image: "https://i.pinimg.com/736x/0f/39/83/0f39834471233115208b57ec9f227344.jpg",
+    image:
+      "https://i.pinimg.com/736x/0f/39/83/0f39834471233115208b57ec9f227344.jpg",
     number: "07 / 08",
+    portfolio: "/login",
   },
   {
     id: "8",
     name: "Philips",
     role: "Chief Executive Officer",
     quote: "In data we trust. In models we verify.",
-    image: "https://i.pinimg.com/736x/78/b4/28/78b428a174dc782a5f886e06e7561a34.jpg",
+    image:
+      "https://i.pinimg.com/736x/78/b4/28/78b428a174dc782a5f886e06e7561a34.jpg",
     number: "08 / 08",
+    portfolio: "/login",
   },
 ];
 
@@ -138,11 +156,11 @@ const TeamSection: React.FC = () => {
       cards.forEach((card) => {
         gsap.fromTo(
           card,
-          { 
-            y: 80, 
-            opacity: 0, 
+          {
+            y: 80,
+            opacity: 0,
             scale: 0.9,
-            rotateX: -15 
+            rotateX: -15,
           },
           {
             y: 0,
@@ -156,7 +174,7 @@ const TeamSection: React.FC = () => {
               start: "top 85%", // Triggers when the top of the card hits 85% of viewport height
               toggleActions: "play none none none",
             },
-          }
+          },
         );
       });
     });
@@ -214,7 +232,8 @@ const TeamSection: React.FC = () => {
                 </p>
 
                 <Link
-                  href={`/team/${member.id}`}
+                  href={member.portfolio}
+                  target="_blank"
                   className="mt-6 w-fit px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold uppercase tracking-widest hover:bg-[#BEC430] hover:text-black transition-all duration-300"
                 >
                   View Profile →
