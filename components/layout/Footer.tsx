@@ -162,7 +162,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center gap-6 pb-10 text-[11px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wider justify-center">
           <div className=" pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
             <p>© 2026 nova Fitness. Built with precision for the community.</p>
-            <div className="flex gap-8">
+            <div className="flex gap-4">
               <Link href="#" className="hover:text-primary">
                 Privacy Policy
               </Link>
@@ -203,7 +203,7 @@ const Footer = () => {
         className="relative w-full h-[15vh] md:h-[35vh] flex items-center justify-center overflow-hidden cursor-default group rounded-4xl"
         style={{ background: "linear-gradient(to right, #990000, #FF4500)" }}
       >
-        <h1 className="text-[20vw] font-[900] leading-none tracking-tighter text-black select-none translate-y-0 transition-transform duration-1000 group-hover:translate-y-[28%]">
+        <h1 className="text-[17vw] font-[900] leading-none tracking-tighter text-black select-none translate-y-0 transition-transform duration-1000 group-hover:translate-y-[28%]">
           Nova Fitness
         </h1>
         <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]" />
